@@ -36,6 +36,9 @@ section {
     height: 800px;
     margin: -345px 0 0 -385px;
   }
+  #star-path{
+      transform-origin: center;
+  }
 
 .intro{
     width: 100%;

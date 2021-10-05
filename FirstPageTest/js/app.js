@@ -58,7 +58,9 @@ window.addEventListener("scroll", function(e) {
     starPath.style.strokeDasharray = "none";
     
   } else {
-    starPath.style.strokeDasharray = pathLength + ' ' + pathLength;
+    starPath.style.strokeDasharray ="200 100 "+ pathLength + ' ' + pathLength ;
+    // starPath.style.strokeDasharray = "10 20 5 30"
+    // starPath.style.transform = "rotateZ("+(scrollPercentage*3600)+"deg)"
     
   }
   
