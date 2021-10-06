@@ -30,20 +30,32 @@ starPath.getBoundingClientRect();
 
 // When the page scrolls...
 window.addEventListener("scroll", function(e) {
- 
+  var divTop = document.getElementById("startDrawn").offsetTop
+  /* define the beginning of a div and yours percentage
+  7051 = 100%
+  1165 = x
+  7051x = 1165*100
+  x = (1165*100)/7051
+  */
+  var regraTres = (divTop*100)/(document.documentElement.scrollHeight - document.documentElement.clientHeight)
+
   // What % down is it? 
   // https://stackoverflow.com/questions/2387136/cross-browser-method-to-determine-vertical-scroll-percentage-in-javascript/2387222#2387222
   // Had to try three or four differnet methods here. Kind of a cross-browser nightmare.
   var scrollPercentage = (document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight)
-  console.log(scrollPercentage);
-    
+
+  console.log(document.documentElement.scrollHeight - document.documentElement.clientHeight);
+  // console.log(document.documentElement.clientHeight);
+  
+  var percentPage = regraTres/100
+
   // the lines will be drawn before 20% of scroll
-  if( (scrollPercentage-0.18)<=0){
+  if( (scrollPercentage-percentPage)<=0){
       scrollPercentage = 0
   }else{
-      scrollPercentage-=0.18
-      // 100/78 = 1.28205128205
-      scrollPercentage *= 1.28205128205
+      scrollPercentage-=percentPage
+      // 100/82 = 1.28205128205
+      scrollPercentage *= 100/Math.abs(((percentPage*100)-100))
   }
   if(scrollPercentage >= 0.30){starPath.style.opacity=`${scrollPercentage*100}%`}else{starPath.style.opacity="10%"}
   var drawLength = pathLength * (scrollPercentage);
@@ -58,7 +70,7 @@ window.addEventListener("scroll", function(e) {
     starPath.style.strokeDasharray = "none";
     
   } else {
-    starPath.style.strokeDasharray ="200 100 "+ pathLength + ' ' + pathLength ;
+    starPath.style.strokeDasharray =pathLength + ' ' + pathLength ;
     // starPath.style.strokeDasharray = "10 20 5 30"
     // starPath.style.transform = "rotateZ("+(scrollPercentage*3600)+"deg)"
     
