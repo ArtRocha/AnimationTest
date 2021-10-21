@@ -1,5 +1,7 @@
-
-let pos = 0
+this.pct = 0
+this.isRotated = false
+function run(namePath, pct){
+  let pos = 0
 window.addEventListener('scroll', (e)=>{
     let content = document.querySelector('.row');
     let contenPosition = content.getBoundingClientRect().top;
@@ -12,7 +14,7 @@ window.addEventListener('scroll', (e)=>{
     }
 })
 // Get a reference to the <path>
-var starPath = document.querySelector('#star-path');
+var starPath = document.querySelector(namePath);
 
 // Get length of path... ~577px in this case
 var pathLength = starPath.getTotalLength();
@@ -38,19 +40,19 @@ window.addEventListener("scroll", function(e) {
   x = (1165*100)/7051
   */
   var regraTres = (divTop*100)/(document.documentElement.scrollHeight - document.documentElement.clientHeight)
-
+  regraTres = pct
   // What % down is it? 
   // https://stackoverflow.com/questions/2387136/cross-browser-method-to-determine-vertical-scroll-percentage-in-javascript/2387222#2387222
   // Had to try three or four differnet methods here. Kind of a cross-browser nightmare.
   var scrollPercentage = (document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight)
-
+  this.pct = scrollPercentage
   console.log(document.documentElement.scrollHeight - document.documentElement.clientHeight);
   // console.log(document.documentElement.clientHeight);
   
   var percentPage = regraTres/100
 
   // the lines will be drawn before 20% of scroll
-  if( (scrollPercentage-percentPage)<=0){
+  if( (scrollPercentage-percentPage)<=0){ 
       scrollPercentage = 0
   }else{
       scrollPercentage-=percentPage
@@ -71,11 +73,13 @@ window.addEventListener("scroll", function(e) {
     
   } else {
     starPath.style.strokeDasharray =pathLength + ' ' + pathLength ;
-    // starPath.style.strokeDasharray = "10 20 5 30"
-    // starPath.style.transform = "rotateZ("+(scrollPercentage*3600)+"deg)"
     
   }
-  
+  if(this.pct>0.9){
+    this.isRotated = true;
+  }else{
+    this.isRotated = false
+  }
 });
 
 gsap.registerPlugin(ScrollTrigger);
@@ -86,37 +90,18 @@ ScrollTrigger.create({
     trigger: ".testinho",
     toggleClass:{targets:".nav", className:"nav-active" }
 })
+}
 
-// const test = gsap.timeline({
-//     scrollTrigger:{
-//     trigger:".row",
-//     // markers:true,
-//     start:"top 70%",
-//     end: "top 40%",
-//     onUpdate:(self) => console.log(self),
-//     scrub:true,
-//     toggleActions: "restart none none none",
-    
-//     // end:"top 30%",
-    
-//     pin: ".col",
-//     pinSpacing: true
+run('#star-path', 20);
+run('#star-path2', 35);
+run('#star-path3', 90);
+run('#star-path4', 90);
 
-// }});
+function rotate(ang, className){
+  let svgs = document.getElementsByClassName(className)
+  for(let svg of svgs){
+    svg.style.transform = `rotate(-${ang}deg)`;
+  }
+}
 
-// test.to(".col",{ x:500, duration:3})
-
-// let oldValue = 0
-// let newValue = 0
-// let pos = 0
-// window.addEventListener('scroll', (e) => {
-//   newValue = window.pageYOffset;
-//   if (oldValue < newValue) {
-//       pos++;
-//     console.log("Up"+pos);
-//   } else if (oldValue > newValue) {
-//       pos--;
-//     console.log("Down"+pos);
-//   }
-//   oldValue = newValue;
-// });
+rotate(12, 'star-svg');

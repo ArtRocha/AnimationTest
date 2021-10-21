@@ -28,13 +28,12 @@ section {
     padding: 25px 15px;
     text-shadow: 1px 1px 1px #333;
   }
-  #star-svg {
+  .star-svg {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 800px;
-    height: 800px;
-    margin: -345px 0 0 -385px;
+    top: 30%;
+    left: 5%;
+    transition: 3s;
+    
   }
   #star-path{
       transform-origin: center;
